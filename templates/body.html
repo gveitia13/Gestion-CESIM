@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+    <body>
+    <div class="wrapper">
+        {% block navbar %}
+            <!-- Navbar -->
+            {% include 'navbar.html' %}
+        {% endblock %}
+        <!-- Content -->
+        <div class="content">
+            <div class="container-fluid">
+                {% block content %}
+
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+    </body>
+{% endblock %}
