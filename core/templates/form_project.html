@@ -1,20 +1,39 @@
 {% extends 'body.html' %}
-{% load static %}
+{% load static widget_tweaks %}
 {% block content %}
-    <form>
+    <form class="w-75 mx-auto pt-3" method="post">
+        <legend>{{ title }}</legend>
+        {% csrf_token %}
         <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            <label for="id_nombre" class="form-label">{{ form.nombre.label }}</label>
+            {{ form.nombre|add_class:'form-control' }}
+            {#            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>#}
         </div>
         <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1">
+            <label for="id_programa" class="form-label">{{ form.programa.label }}</label>
+            {{ form.programa|add_class:'form-control' }}
         </div>
-        <div class="mb-3 form-check">
+        <div class="mb-3">
+            <label for="id_codigo" class="form-label">{{ form.codigo.label }}</label>
+            {{ form.codigo|add_class:'form-control' }}
+        </div>
+        <div class="mb-3">
+            <label for="id_tipo" class="form-label">{{ form.tipo.label }}</label>
+            {{ form.tipo|add_class:'form-select' }}
+        </div>
+        <div class="mb-3">
+            <label for="id_area" class="form-label">{{ form.area.label }}</label>
+            {{ form.area|add_class:'form-control' }}
+        </div>
+        <div class="mb-3">
+            <label for="id_resumen" class="form-label">{{ form.resumen.label }}</label>
+            {#            <textarea class="form-control" id="id_resumen" name="resumen" rows="3"></textarea>#}
+            {{ form.resumen|add_class:'form-control' }}
+        </div>
+        {% comment %}        <div class="mb-3 form-check">
             <input type="checkbox" class="form-check-input" id="exampleCheck1">
             <label class="form-check-label" for="exampleCheck1">Check me out</label>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        </div>{% endcomment %}
+        <button type="submit" class="btn btn-primary">Enviar</button>
     </form>
 {% endblock %}

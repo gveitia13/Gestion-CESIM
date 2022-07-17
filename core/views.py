@@ -1,12 +1,40 @@
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 
+from core.forms import ProyectoForm
 from core.models import Proyecto
 
 
 class ProjectCreate(generic.CreateView):
     model = Proyecto
-    fields = '__all__'
+    form_class = ProyectoForm
     template_name = 'form_project.html'
-    success_url = reverse_lazy('project-add')
+    success_url = reverse_lazy('project-list')
+
+    def get_context_data(self, **kwargs):
+        context = super(ProjectCreate, self).get_context_data()
+        context['title'] = 'Crear nuevo proyecto'
+        return context
+
+
+class ProjectUpdate(generic.UpdateView):
+    model = Proyecto
+    form_class = ProyectoForm
+    template_name = 'form_project.html'
+    success_url = reverse_lazy('project-list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['title'] = 'Editar proyecto'
+        return context
+
+
+class ProjectList(generic.ListView):
+    model = Proyecto
+    template_name = 'list_project.html'
+    queryset = Proyecto.objects.all()
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(ProjectList, self).get_context_data()
+        context['title'] = 'Listado de proyectos'
+        return context

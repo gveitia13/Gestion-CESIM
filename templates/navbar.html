@@ -13,7 +13,7 @@
                     <a class="nav-link active" aria-current="page" href="#">CESIM</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Proyectos</a>
+                    <a class="nav-link" href="{% url 'project-list' %}">Proyectos</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Integrantes</a>
@@ -51,8 +51,8 @@
                 </button>
                 <div class="collapse" id="home-collapse" style="">
                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                        <li><a href="#" class="link-dark rounded">Listado</a></li>
-                        <li><a href="#" class="link-dark rounded">Crear</a></li>
+                        <li><a href="{% url 'project-list' %}" class="link-dark rounded">Listado</a></li>
+                        <li><a href="{% url 'project-add' %}" class="link-dark rounded">Crear</a></li>
                         <li><a href="#" class="link-dark rounded">Reportes</a></li>
                     </ul>
                 </div>
@@ -60,7 +60,7 @@
             <li class="mb-1">
                 <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
                         data-bs-target="#dashboard-collapse" aria-expanded="false">
-                    Dashboard
+                    Integrantes
                 </button>
                 <div class="collapse" id="dashboard-collapse" style="">
                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">

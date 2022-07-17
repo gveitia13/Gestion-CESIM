@@ -5,7 +5,7 @@ from django.db import models
 # Create your models here.
 class Proyecto(models.Model):
     nombre = models.CharField(max_length=100, verbose_name='Nombre del proyecto')
-    programa = models.CharField(max_length=100, verbose_name='Programa')
+    programa = models.CharField(max_length=100, verbose_name='Programa del proyecto')
     codigo = models.CharField(max_length=100, verbose_name='Código del proyecto')
     tipo = models.CharField(max_length=100, verbose_name='Tipo de proyecto', choices=(
         ('n', 'Nacional'),

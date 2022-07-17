@@ -1,0 +1,37 @@
+{% extends 'body.html' %}
+{% load static widget_tweaks %}
+{% block content %}
+    <legend>{{ title }}</legend>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Programa</th>
+            <th scope="col">Código</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Área</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if object_list %}
+            {% for object in object_list %}
+                <tr>
+                    {#                    <th scope="row">{{ object.nombre }}</th>#}
+                    <td><a href="{% url 'project-update' object.pk %}"
+                           style="text-decoration: none;color: inherit;" class="fw-semibold">{{ object.nombre }}</a></td>
+                    <td>{{ object.programa }}</td>
+                    <td>{{ object.codigo }}</td>
+                    <td>{{ object.get_tipo_display }}</td>
+                    <td>{{ object.area }}</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+
+        {#        <tr>#}
+        {#            <th scope="row">3</th>#}
+        {#            <td colspan="2">Larry the Bird</td>#}
+        {#            <td>@twitter</td>#}
+        {#        </tr>#}
+        </tbody>
+    </table>
+{% endblock %}
