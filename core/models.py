@@ -15,15 +15,27 @@ class Proyecto(models.Model):
     area = models.CharField(max_length=100, verbose_name='Área administrativa')
     resumen = models.CharField(max_length=500, verbose_name='Resumen del proyecto')
 
+    def __str__(self):
+        return self.nombre
+
 
 class Miembro(models.Model):
     proyecto = models.ManyToManyField(Proyecto, verbose_name='Proyecto asociado', through='RecursosHumanos')
     nombre = models.CharField(max_length=100, verbose_name='Nombre')
     apellidos = models.CharField(max_length=100, verbose_name='Apellidos')
     ci = models.CharField(max_length=11, verbose_name='Carnet de identidad')
-    categoria = models.CharField(max_length=100, verbose_name='Categoría científica')
+    categoria_ocupacional = models.CharField(max_length=100, verbose_name='Categoría ocupacional', choices=(
+        ('C', 'cuadro'),
+        ('TI', 'técnico de investigación'),
+        ('OT', 'otros técnicos'),
+        ('O', 'obreros'),
+        ('S', 'servicios'),
+    ))
+    categoria_cientifica = models.CharField(max_length=100, verbose_name='Categoría científica', null=True, blank=True)
     cuenta_bancaria = models.CharField(max_length=16, verbose_name='Cuenta bancaria')
-    clasificador_entidad = models.CharField(verbose_name='Clasificar de entidad', max_length=10, )
+
+    def __str__(self):
+        return self.nombre
 
 
 class RecursosHumanos(models.Model):
@@ -37,22 +49,26 @@ class RecursosHumanos(models.Model):
         ('5', 'Desarrollador'),
         ('6', 'Gestor'),
     ), blank=True, null=True)
-    institucion = models.CharField(max_length=100, verbose_name='Institución', choices=(
-        ('e', 'Empresa'),
-        ('p', 'Presupuestado'),
-    ))
-    porciento_de_participacion = models.DecimalField(verbose_name='% de Participación', decimal_places=2, max_digits=10)
+    institucion = models.CharField(max_length=100, verbose_name='Institución a que pertenece')
+    clasificador_entidad = models.CharField(verbose_name='Clasificar de entidad', max_length=10, choices=(
+        ('1', '1'),
+        ('0', '0'),
+    ), help_text='1 si es Empresa, 0 si es Presupuestada')
+    #  Salario por Participación en el Proyecto
+    porciento_de_participacion = models.DecimalField(verbose_name='% de Participación', decimal_places=2, max_digits=10,
+                                                     validators=[MaxValueValidator(100)])
     salario_mensual = models.DecimalField(verbose_name='Salario mensual', decimal_places=2, max_digits=10, null=True,
-                                          blank=True)
-    salario_anual = models.DecimalField(verbose_name='Salario anual', decimal_places=2, max_digits=10, null=True,
-                                        blank=True)
-    salario_externo = models.DecimalField(verbose_name='Salario externo', decimal_places=2, max_digits=10, null=True,
-                                          blank=True)
-    porciento_de_remuneracion = models.DecimalField(verbose_name='% de Remuneración', decimal_places=2, max_digits=10)
-    # calculados
-    mce = models.DecimalField(verbose_name='MCE', decimal_places=2, null=True, blank=True, max_digits=10)
+                                          blank=True)  # Salario basico mensual x porciento_de_participacion
+    salario_anual_ejecutora = models.DecimalField(verbose_name='Salario Anual Ejecutora Principal', decimal_places=2,
+                                                  max_digits=10, null=True, blank=True)
+    salario_anual_externo = models.DecimalField(verbose_name='Salario anual externo', decimal_places=2, max_digits=10,
+                                                null=True, blank=True)
+    # Remuneración por Participación en el Proyecto
+    porciento_de_remuneracion = models.DecimalField(verbose_name='% de Remuneración', decimal_places=2, max_digits=10,
+                                                    validators=[MaxValueValidator(100)])
+    mce = models.DecimalField(verbose_name='MCE', decimal_places=2, null=True, blank=True, max_digits=10)  # calculados
     tiempo = models.PositiveSmallIntegerField(verbose_name='Tiempo en meses', validators=[MaxValueValidator(12)])
-    # calculados
-    anual = models.DecimalField(decimal_places=2, verbose_name='Anual', max_digits=10, null=True, blank=True)
+    anual = models.DecimalField(decimal_places=2, verbose_name='Anual', max_digits=10, null=True,
+                                blank=True)  # MCE * tiempo
     salario_mensual_basico = models.DecimalField(verbose_name='Salario básico mensual', decimal_places=2,
                                                  max_digits=10, )
