@@ -2,34 +2,44 @@
 {% load static widget_tweaks %}
 {% block content %}
     <div class="container-fluid">
-        <legend>{{ title }}</legend>
+        <div class="row py-3">
+            <div class="col-10">
+                <legend class="text-start">{{ title }}</legend>
+            </div>
+            <div class="col-2 text-end">
+                <a href="{% url 'project-add' %}" class="btn btn-primary rounded-pill">
+                    <i class="mdi mdi-plus"></i>Insertar Proyecto</a>
+            </div>
+        </div>
         <div class="row">
             {% if object_list %}
                 {% for obj in object_list %}
                     <div class="col-6 col-sm-3 col-md-2">
                         <div class="card card-product">
-                            <img src="{{ obj.get_logo }}" height="140" class="card-img-top p-2" alt="prueba">
-                            <div class="card-body">
-                                <span class="text-lg fw-bold truncate-1">{{ obj.abreviacion }}</span>
-                                <p class="text-lg truncate-1 fw-semibold mb-0">{{ obj.codigo }}</p>
-                                <div class="collapse" id="detail{{ obj.id }}">
-                                    <p class="truncate- ">{{ obj.resumen }}</p>
+                            <a href="{% url 'project-details' obj.pk %}" class="text-reset text-decoration-none">
+                                <img src="{{ obj.get_logo }}" height="140" class="card-img-top p-2" alt="prueba">
+                                <div class="card-body">
+                                    <span class="text-lg fw-bold truncate-1">{{ obj.abreviacion }}</span>
+                                    <p class="text-lg truncate-1 fw-semibold mb-0">{{ obj.codigo }}</p>
+                                    <div class="collapse" id="detail{{ obj.id }}">
+                                        <p class="fs-7">{{ obj.resumen }}</p>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                             <div class="card-footer text-end">
                                 <button class="btn btn-outline-secondary btn-sm btn-collapse" type="button"
                                         data-bs-toggle="collapse"
                                         data-bs-target="#detail{{ obj.id }}" aria-expanded="false"
                                         aria-controls="collapseExample"><i class="mdi mdi-eye-plus-outline"></i>
                                 </button>
-                                <a href="{% url 'project-update' obj.pk %}" class="btn-outline-secondary btn-sm btn">
+                                <a href="{% url 'project-update' obj.pk %}"
+                                   class="btn-outline-secondary btn-sm btn">
                                     <i class="mdi mdi-square-edit-outline"></i>
                                 </a>
                                 <a href="#" class="btn btn-outline-danger btn-sm">
                                     <i class="mdi mdi-delete-outline"></i>
                                 </a>
                             </div>
-                            {#                        </a>#}
                         </div>
                     </div>
                 {% endfor %}
