@@ -4,31 +4,45 @@
     <form class="w-75 mx-auto pt-3" method="post">
         <legend>{{ title }}</legend>
         {% csrf_token %}
-        <div class="mb-3">
-            <label for="id_nombre" class="form-label">{{ form.nombre.label }}</label>
-            {{ form.nombre|add_class:'form-control' }}
-            {#            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>#}
-        </div>
-        <div class="mb-3">
-            <label for="id_programa" class="form-label">{{ form.programa.label }}</label>
-            {{ form.programa|add_class:'form-control' }}
-        </div>
-        <div class="mb-3">
-            <label for="id_codigo" class="form-label">{{ form.codigo.label }}</label>
-            {{ form.codigo|add_class:'form-control' }}
-        </div>
-        <div class="mb-3">
-            <label for="id_tipo" class="form-label">{{ form.tipo.label }}</label>
-            {{ form.tipo|add_class:'form-select' }}
-        </div>
-        <div class="mb-3">
-            <label for="id_area" class="form-label">{{ form.area.label }}</label>
-            {{ form.area|add_class:'form-control' }}
-        </div>
-        <div class="mb-3">
-            <label for="id_resumen" class="form-label">{{ form.resumen.label }}</label>
-            {#            <textarea class="form-control" id="id_resumen" name="resumen" rows="3"></textarea>#}
-            {{ form.resumen|add_class:'form-control' }}
+        <div class="row">
+            <div class="col-12 col-sm-6">
+                <div class="mb-3">
+                    <label for="id_nombre" class="form-label">{{ form.nombre.label }}</label>
+                    {{ form.nombre|add_class:'form-control' }}
+                    {#            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>#}
+                </div>
+                <div class="mb-3">
+                    <label for="id_abreviacion" class="form-label">{{ form.abreviacion.label }}</label>
+                    {{ form.abreviacion|add_class:'form-control' }}
+                </div>
+                <div class="mb-3">
+                    <label for="id_logo" class="form-label">{{ form.logo.label }}</label>
+                    {{ form.logo|add_class:'form-control' }}
+                </div>
+                <div class="mb-3">
+                    <label for="id_programa" class="form-label">{{ form.programa.label }}</label>
+                    {{ form.programa|add_class:'form-control' }}
+                </div>
+            </div>
+            <div class="col-12 col-sm-6">
+                <div class="mb-3">
+                    <label for="id_codigo" class="form-label">{{ form.codigo.label }}</label>
+                    {{ form.codigo|add_class:'form-control' }}
+                </div>
+                <div class="mb-3">
+                    <label for="id_tipo" class="form-label">{{ form.tipo.label }}</label>
+                    {{ form.tipo|add_class:'form-select' }}
+                </div>
+                <div class="mb-3">
+                    <label for="id_area" class="form-label">{{ form.area.label }}</label>
+                    {{ form.area|add_class:'form-control' }}
+                </div>
+                <div class="mb-3">
+                    <label for="id_resumen" class="form-label">{{ form.resumen.label }}</label>
+                    {#            <textarea class="form-control" id="id_resumen" name="resumen" rows="3"></textarea>#}
+                    {{ form.resumen|add_class:'form-control' }}
+                </div>
+            </div>
         </div>
         {% comment %}        <div class="mb-3 form-check">
             <input type="checkbox" class="form-check-input" id="exampleCheck1">

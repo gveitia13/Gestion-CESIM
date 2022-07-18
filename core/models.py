@@ -1,11 +1,15 @@
 from django.core.validators import MaxValueValidator
 from django.db import models
 
-
 # Create your models here.
+from cesim_gestion.settings import MEDIA_URL, STATIC_URL
+
+
 class Proyecto(models.Model):
-    nombre = models.CharField(max_length=100, verbose_name='Nombre del proyecto')
-    programa = models.CharField(max_length=100, verbose_name='Programa del proyecto')
+    nombre = models.CharField(max_length=200, verbose_name='Nombre del proyecto')
+    abreviacion = models.CharField(max_length=100, verbose_name='Abreviación del nombre', null=True, blank=True)
+    logo = models.ImageField(upload_to='fotos/', null=True, blank=True, verbose_name='Logo del proyecto')
+    programa = models.CharField(max_length=100, verbose_name='Programa')
     codigo = models.CharField(max_length=100, verbose_name='Código del proyecto')
     tipo = models.CharField(max_length=100, verbose_name='Tipo de proyecto', choices=(
         ('n', 'Nacional'),
@@ -17,6 +21,11 @@ class Proyecto(models.Model):
 
     def __str__(self):
         return self.nombre
+
+    def get_logo(self):
+        if self.logo:
+            return '{}{}'.format(MEDIA_URL, self.logo)
+        return '{}{}'.format(STATIC_URL, 'img/uci.jpg')
 
 
 class Miembro(models.Model):

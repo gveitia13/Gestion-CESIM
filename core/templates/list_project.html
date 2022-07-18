@@ -10,6 +10,7 @@
             <th scope="col">Código</th>
             <th scope="col">Tipo</th>
             <th scope="col">Área</th>
+            <th scope="col">Opciones</th>
         </tr>
         </thead>
         <tbody>
@@ -18,11 +19,18 @@
                 <tr>
                     {#                    <th scope="row">{{ object.nombre }}</th>#}
                     <td><a href="{% url 'project-update' object.pk %}"
-                           style="text-decoration: none;color: inherit;" class="fw-semibold">{{ object.nombre }}</a></td>
+                           style="text-decoration: none;color: inherit;" class="fw-semibold">{{ object.nombre }}</a>
+                    </td>
                     <td>{{ object.programa }}</td>
                     <td>{{ object.codigo }}</td>
                     <td>{{ object.get_tipo_display }}</td>
                     <td>{{ object.area }}</td>
+                    <td>
+                        <a href="{% url 'project-update' object.pk %}" class="btn btn-sm btn-warning">
+                            <i class="mdi mdi-square-edit-outline"></i>
+                        </a>
+                        <a href="#"></a>
+                    </td>
                 </tr>
             {% endfor %}
         {% endif %}

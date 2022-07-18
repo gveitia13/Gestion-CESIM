@@ -13,7 +13,7 @@ class ProjectCreate(generic.CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(ProjectCreate, self).get_context_data()
-        context['title'] = 'Crear nuevo proyecto'
+        context['title'] = 'Insertar proyecto'
         return context
 
 
@@ -31,7 +31,7 @@ class ProjectUpdate(generic.UpdateView):
 
 class ProjectList(generic.ListView):
     model = Proyecto
-    template_name = 'list_project.html'
+    template_name = 'list_card_project.html'
     queryset = Proyecto.objects.all()
 
     def get_context_data(self, *, object_list=None, **kwargs):

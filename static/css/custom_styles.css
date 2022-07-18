@@ -115,3 +115,43 @@ main {
 .lh-tight {
     line-height: 1.25;
 }
+
+.agrandar, .card-product {
+    transform: scale(1);
+    transition-duration: 0.5s;
+    /*z-index: 999999;*/
+}
+
+.agrandar:hover {
+    transform: scale(1.3);
+    transition-duration: 0.5s;
+    /*z-index: 999999;*/
+}
+
+.card-product:hover {
+    transform: scale(1.05);
+    transition-duration: 0.5s;
+    /*z-index: 999999;*/
+}
+
+.truncate-1, .truncate-2, .truncate-3, .truncate-4 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.truncate-1 {
+    -webkit-line-clamp: 1;
+}
+
+.truncate-2 {
+    -webkit-line-clamp: 2;
+}
+
+.truncate-3 {
+    -webkit-line-clamp: 3;
+}
+
+.truncate-4 {
+    -webkit-line-clamp: 4;
+}
