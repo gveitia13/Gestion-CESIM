@@ -1,0 +1,62 @@
+{% extends 'body.html' %}
+{% load static widget_tweaks %}
+{% block content %}
+    <div class="row py-3">
+        <div class="col-10">
+            <legend class="text-start">{{ title }}</legend>
+        </div>
+        <div class="col-2 text-end">
+            <a href="{% url 'member-create' %}" class="btn btn-primary rounded-pill">
+                <i class="mdi mdi-plus"></i>Insertar miembro</a>
+        </div>
+    </div>
+    <div class="card ">
+        <div class="card-body table-responsive">
+            <table class="table table-hover ">
+                <caption>Mostrando {{ object_list.count }} {% if object_list.count == 1 %}
+                    resultado{% else %} resultados {% endif %}</caption>
+                <thead>
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Carnet Id.</th>
+                    <th scope="col">Categoría ocupacional</th>
+                    <th scope="col">Categoría científica</th>
+                    <th scope="col">Cuenta bancaria</th>
+                    <th scope="col">Opciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if object_list %}
+                    {% for object in object_list %}
+                        <tr>
+                            <td>
+                                <a href="#" style="text-decoration: none;color: inherit;"
+                                   class="fw-semibold">{{ object.nombre }} {{ object.apellidos }}</a>
+                            </td>
+                            <td>{{ object.ci }}</td>
+                            <td>{{ object.get_categoria_ocupacional_display }} ({{ object.categoria_ocupacional }})</td>
+                            <td>{{ object.categoria_cientifica }}</td>
+                            <td>{{ object.cuenta_bancaria }}</td>
+                            <td>
+                                <a href="{% url 'member-update' object.pk %}"
+                                   class="btn btn-sm btn-outline-warning rounded-pill">
+                                    <i class="mdi mdi-square-edit-outline"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-danger rounded-pill">
+                                    <i class="mdi mdi-delete-outline"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+
+                {#        <tr>#}
+                {#            <th scope="row">3</th>#}
+                {#            <td colspan="2">Larry the Bird</td>#}
+                {#            <td>@twitter</td>#}
+                {#        </tr>#}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

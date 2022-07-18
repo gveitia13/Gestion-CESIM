@@ -30,7 +30,7 @@ class ProjectUpdate(generic.UpdateView):
         return context
 
 
-class ProjectList(LoginRequiredMixin, generic.ListView):
+class ProjectList(generic.ListView):
     model = Proyecto
     template_name = 'project/list_card_project.html'
     queryset = Proyecto.objects.all()
@@ -44,3 +44,10 @@ class ProjectList(LoginRequiredMixin, generic.ListView):
 class ProjectDetails(generic.DetailView):
     model = Proyecto
     template_name = 'project/details_project.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ProjectDetails, self).get_context_data()
+        project = self.get_object()
+        context['title'] = f'Detalles de {project}'
+        print(project)
+        return context

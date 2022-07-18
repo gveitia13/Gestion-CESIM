@@ -1,4 +1,4 @@
-from django.core.validators import MaxValueValidator
+from django.core.validators import MaxValueValidator, MinLengthValidator
 from django.db import models
 
 # Create your models here.
@@ -7,7 +7,7 @@ from cesim_gestion.settings import MEDIA_URL, STATIC_URL
 
 class Proyecto(models.Model):
     nombre = models.CharField(max_length=200, verbose_name='Nombre del proyecto')
-    abreviacion = models.CharField(max_length=100, verbose_name='Abreviación del nombre', null=True, blank=True)
+    abreviacion = models.CharField(max_length=100, verbose_name='Abreviación del nombre')
     logo = models.ImageField(upload_to='fotos/', null=True, blank=True, verbose_name='Logo del proyecto')
     programa = models.CharField(max_length=100, verbose_name='Programa')
     codigo = models.CharField(max_length=100, verbose_name='Código del proyecto')
@@ -20,7 +20,7 @@ class Proyecto(models.Model):
     resumen = models.CharField(max_length=500, verbose_name='Resumen del proyecto')
 
     def __str__(self):
-        return self.nombre
+        return self.abreviacion
 
     def get_logo(self):
         if self.logo:
@@ -29,10 +29,10 @@ class Proyecto(models.Model):
 
 
 class Miembro(models.Model):
-    proyecto = models.ManyToManyField(Proyecto, verbose_name='Proyecto asociado', through='RecursosHumanos')
+    proyecto = models.ManyToManyField(Proyecto, verbose_name='Proyecto asociado', through='RecursosHumanos', )
     nombre = models.CharField(max_length=100, verbose_name='Nombre')
     apellidos = models.CharField(max_length=100, verbose_name='Apellidos')
-    ci = models.CharField(max_length=11, verbose_name='Carnet de identidad')
+    ci = models.CharField(max_length=11, verbose_name='Carnet de identidad', validators=[MinLengthValidator(11)])
     categoria_ocupacional = models.CharField(max_length=100, verbose_name='Categoría ocupacional', choices=(
         ('C', 'cuadro'),
         ('TI', 'técnico de investigación'),
@@ -67,7 +67,7 @@ class RecursosHumanos(models.Model):
     porciento_de_participacion = models.DecimalField(verbose_name='% de Participación', decimal_places=2, max_digits=10,
                                                      validators=[MaxValueValidator(100)])
     salario_mensual = models.DecimalField(verbose_name='Salario mensual', decimal_places=2, max_digits=10, null=True,
-                                          blank=True)  # Salario basico mensual x porciento_de_participacion
+                                          blank=True)  # Salario basico mensual x porciento de participacion
     salario_anual_ejecutora = models.DecimalField(verbose_name='Salario Anual Ejecutora Principal', decimal_places=2,
                                                   max_digits=10, null=True, blank=True)
     salario_anual_externo = models.DecimalField(verbose_name='Salario anual externo', decimal_places=2, max_digits=10,

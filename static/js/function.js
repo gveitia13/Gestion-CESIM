@@ -1,3 +1,9 @@
+$(document).ready(function () {
+  $('.select2').select2({
+    placeholder: 'Seleccionar proyectos(s)'
+  });
+});
+
 //Auxiliary method: submit with ajax and jQuery
 function ajaxFunction(url, parameters, type, callback, async = true) {
   $.ajax({

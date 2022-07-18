@@ -1,0 +1,67 @@
+{% extends 'body.html' %}
+{% load static widget_tweaks %}
+{% block content %}
+    <form class="w-75 mx-auto pt-3" method="post">
+        <legend>{{ title }}</legend>
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-12 col-sm-6">
+                <div class="mb-3">
+                    <label for="id_nombre" class="form-label fw-semibold">{{ form.nombre.label }}</label>
+                    {{ form.nombre|add_class:'form-control' }}
+                </div>
+                <div class="mb-3">
+                    <label for="id_ci" class="form-label fw-semibold">{{ form.ci.label }}</label>
+                    {{ form.ci|add_class:'form-control' }}
+                </div>
+                <div class="mb-3">
+                    <label for="id_cuenta_bancaria"
+                           class="form-label fw-semibold">{{ form.cuenta_bancaria.label }}</label>
+                    {{ form.cuenta_bancaria|add_class:'form-control' }}
+                </div>
+            </div>
+            <div class="col-12 col-sm-6">
+                <div class="mb-3">
+                    <label for="id_apellidos" class="form-label fw-semibold">{{ form.apellidos.label }}</label>
+                    {{ form.apellidos|add_class:'form-control' }}
+                </div>
+                <div class="mb-3">
+                    <label for="id_categoria_ocupacional"
+                           class="form-label fw-semibold">{{ form.categoria_ocupacional.label }}</label>
+                    {{ form.categoria_ocupacional|add_class:'form-select' }}
+                </div>
+                <div class="mb-3">
+                    <label for="id_categoria_cientifica"
+                           class="form-label fw-semibold">{{ form.categoria_cientifica.label }}</label>
+                    {{ form.categoria_cientifica|add_class:'form-control' }}
+                </div>
+            </div>
+            {#            <div class="col-12">#}
+            {#                <legend>Proyectos Asociados</legend>#}
+            {#                {{ form.proyecto }}#}
+            {#            </div>#}
+        </div>
+        <button type="submit" class="btn btn-primary"><i class="mdi mdi-content-save"></i> Enviar</button>
+    </form>
+{% endblock %}
+{% block scripts %}
+    <script>
+      {% if form.errors %}
+        let errors = '';
+        {% for field in form %}
+          {% for error in field.errors %}
+            errors += '{{ error }}\n';
+          {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+          errors += '{{ error }}\n';
+        {% endfor %}
+
+        Swal.fire({
+          title: 'Error',
+          text: errors,
+          icon: 'error'
+        });
+      {% endif %}
+    </script>
+{% endblock %}

@@ -16,14 +16,17 @@
                     <a class="nav-link" href="{% url 'project-list' %}">Proyectos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Miembros</a>
+                    <a class="nav-link" href="{% url 'member-list' %}">Miembros</a>
                 </li>
+
+            </ul>
+            <ul class="navbar-nav ms-auto">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
                         Dropdown link
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                         <li><a class="dropdown-item" href="#">Action</a></li>
                         <li><a class="dropdown-item" href="#">Another action</a></li>
                         <li><a class="dropdown-item" href="#">Something else here</a></li>
@@ -64,8 +67,8 @@
                 </button>
                 <div class="collapse" id="dashboard-collapse" style="">
                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                        <li><a href="#" class="link-dark rounded">Listado</a></li>
-                        <li><a href="#" class="link-dark rounded">Crear</a></li>
+                        <li><a href="{% url 'member-list' %}" class="link-dark rounded">Listado</a></li>
+                        <li><a href="{% url 'member-create' %}" class="link-dark rounded">Crear</a></li>
                     </ul>
                 </div>
             </li>
