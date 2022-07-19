@@ -64,19 +64,23 @@ class RecursosHumanos(models.Model):
         ('0', '0'),
     ), help_text='1 si es Empresa, 0 si es Presupuestada')
     #  Salario por Participación en el Proyecto
-    porciento_de_participacion = models.DecimalField(verbose_name='% de Participación', decimal_places=2, max_digits=10,
-                                                     validators=[MaxValueValidator(100)])
+    porciento_de_participacion = models.DecimalField(verbose_name='Porciento de Participación', decimal_places=2,
+                                                     max_digits=10,
+                                                     validators=[MaxValueValidator(100)],
+                                                     help_text='Debe ser menor que 100')
     salario_mensual = models.DecimalField(verbose_name='Salario mensual', decimal_places=2, max_digits=10, null=True,
                                           blank=True)  # Salario basico mensual x porciento de participacion
     salario_anual_ejecutora = models.DecimalField(verbose_name='Salario Anual Ejecutora Principal', decimal_places=2,
-                                                  max_digits=10, null=True, blank=True)
+                                                  max_digits=10, null=True, blank=True)  # Calcular
     salario_anual_externo = models.DecimalField(verbose_name='Salario anual externo', decimal_places=2, max_digits=10,
-                                                null=True, blank=True)
+                                                null=True, blank=True)  # Calcular
     # Remuneración por Participación en el Proyecto
-    porciento_de_remuneracion = models.DecimalField(verbose_name='% de Remuneración', decimal_places=2, max_digits=10,
-                                                    validators=[MaxValueValidator(100)])
+    porciento_de_remuneracion = models.DecimalField(verbose_name='Porciento de Remuneración', decimal_places=2,
+                                                    max_digits=10, validators=[MaxValueValidator(100)],
+                                                    help_text='Debe ser menor que 100')
     mce = models.DecimalField(verbose_name='MCE', decimal_places=2, null=True, blank=True, max_digits=10)  # calculados
-    tiempo = models.PositiveSmallIntegerField(verbose_name='Tiempo en meses', validators=[MaxValueValidator(12)])
+    tiempo = models.PositiveSmallIntegerField(verbose_name='Tiempo en meses', validators=[MaxValueValidator(12)],
+                                              help_text='Debe ser menor que 12')
     anual = models.DecimalField(decimal_places=2, verbose_name='Anual', max_digits=10, null=True,
                                 blank=True)  # MCE * tiempo
     salario_mensual_basico = models.DecimalField(verbose_name='Salario básico mensual', decimal_places=2,

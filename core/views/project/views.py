@@ -1,9 +1,10 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpRequest, JsonResponse
 from django.urls import reverse_lazy
 from django.views import generic
 
-from core.forms import ProyectoForm
-from core.models import Proyecto
+from core.forms import ProyectoForm, MemberForm, RecursosHumanosForm
+from core.models import Proyecto, Miembro
 
 
 class ProjectCreate(generic.CreateView):
@@ -49,5 +50,26 @@ class ProjectDetails(generic.DetailView):
         context = super(ProjectDetails, self).get_context_data()
         project = self.get_object()
         context['title'] = f'Detalles de {project}'
+        context['object_list'] = Miembro.objects.all()
+        context['form'] = MemberForm()
+        context['form2'] = RecursosHumanosForm()
         print(project)
         return context
+
+    def post(self, request: HttpRequest, *args, **kwargs):
+        data = {}
+        print(request.POST)
+        form = MemberForm(request.POST)
+        if form.is_valid():
+            form.save()
+        else:
+            raise ValueError(Exception)
+        #
+        # try:
+        #     member = Miembro.objects.create(request.POST)
+        # except Exception as e:
+        #     data['error'] = str(e)
+        # except Exception as e:
+        # data['error'] = 'errpr'
+        return JsonResponse(data, safe=False)
+        # return redirect(reverse_lazy('denuncia-list'))

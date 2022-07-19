@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 
-from core.models import Proyecto, Miembro
+from core.models import Proyecto, Miembro, RecursosHumanos
 
 
 class ProyectoForm(ModelForm):
@@ -44,11 +44,12 @@ class MemberForm(ModelForm):
         self.fields['cuenta_bancaria'].widget.attrs['placeholder'] = 'Número de cuenta bancaria'
         self.fields['categoria_ocupacional'] = forms.ChoiceField(choices=(
             ('', 'Seleccione una opción'),
-            ('C', 'cuadro'),
-            ('TI', 'técnico de investigación'),
-            ('OT', 'otros técnicos'),
-            ('O', 'obreros'),
-            ('S', 'servicios'),
+            ('', '---------------------------'),
+            ('C', 'Cuadro'),
+            ('TI', 'Técnico de investigación'),
+            ('OT', 'Otros técnicos'),
+            ('O', 'Obreros'),
+            ('S', 'Servicios'),
         ))
         # self.fields['proyecto'] =
 
@@ -56,6 +57,35 @@ class MemberForm(ModelForm):
         model = Miembro
         fields = '__all__'
         exclude = ('proyecto',)
-        widgets = {
 
-        }
+
+class RecursosHumanosForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['cargo'] = forms.ChoiceField(choices=(
+            ('', 'Seleccione una opción'),
+            ('', '---------------------'),
+            ('1', 'Jefe de proyecto'),
+            ('2', 'Profesor'),
+            ('3', 'Estudiante'),
+            ('4', 'Analista'),
+            ('5', 'Desarrollador'),
+            ('6', 'Gestor'),
+        ))
+        self.fields['clasificador_entidad'] = forms.ChoiceField(choices=(
+            ('', 'Seleccione un número'),
+            ('', '-----------------------'),
+            ('1', '1'),
+            ('0', '0'),
+        ), help_text='1 si es Empresa, 0 si es Presupuestada')
+        self.fields['institucion'].widget.attrs['placeholder'] = 'Escriba el nombre de la institución'
+        self.fields['porciento_de_participacion'].widget.attrs[
+            'placeholder'] = 'Escriba el % de participación en el proyecto'
+        self.fields['porciento_de_remuneracion'].widget.attrs[
+            'placeholder'] = 'Escriba el % de remuneración en el proyecto'
+        self.fields['tiempo'].widget.attrs['placeholder'] = 'Escriba el tiempo en meses'
+        self.fields['salario_mensual_basico'].widget.attrs['placeholder'] = 'Escriba el salario básico'
+
+    class Meta:
+        model = RecursosHumanos
+        fields = '__all__'

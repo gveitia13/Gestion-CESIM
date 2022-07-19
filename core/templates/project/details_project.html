@@ -1,5 +1,246 @@
 {% extends 'body.html' %}
 {% load static widget_tweaks %}
 {% block content %}
-    <legend class="text-start">{{ title }}:</legend>
+    <div class="row py-3">
+        <div class="col-10">
+            <legend class="text-start">{{ title }}</legend>
+        </div>
+    </div>
+    <!--Detalles del proyecto-->
+    <div class="card">
+        <div class="row g-0">
+            <div class="col-sm-2">
+                <img src="{{ object.get_logo }}" class="img-fluid rounded-start" alt="...">
+                <div class="m-1">
+                    <a href="{% url 'project-update' object.pk %}" class="btn btn-sm btn-outline-secondary ">
+                        <i class="mdi mdi-square-edit-outline"></i>Editar</a>
+                    <a href="#" class="btn btn-outline-secondary btn-sm">
+                        <i class="mdi mdi-delete-outline"></i>Eliminar</a>
+                </div>
+            </div>
+            <div class="col-sm-10">
+                <div class="card-body pb-0">
+                    <dl class="row g-1">
+                        <dt class="col-sm-2">Nombre:</dt>
+                        <dd class="col-sm-10">{{ object.nombre }}</dd>
+
+                        <dt class="col-sm-2">Abreviación:</dt>
+                        <dd class="col-sm-10">{{ object.abreviacion }}:</dd>
+
+                        <dt class="col-sm-2">Programa:</dt>
+                        <dd class="col-sm-10">{{ object.programa }}</dd>
+
+                        <dt class="col-sm-2 text-truncate">Código:</dt>
+                        <dd class="col-sm-10">{{ object.codigo }}</dd>
+
+                        <dt class="col-sm-2 text-truncate">Tipo:</dt>
+                        <dd class="col-sm-10">{{ object.get_tipo_display }}</dd>
+
+                        <dt class="col-sm-2 text-truncate">Área administrativa:</dt>
+                        <dd class="col-sm-10">{{ object.area }}</dd>
+
+                        <dt class="col-sm-2 text-truncate">Resumen del proyecto:</dt>
+                        <dd class="col-sm-10">{{ object.resumen }}</dd>
+
+                        {% comment %}                <dt class="col-sm-3">Nesting</dt>
+                <dd class="col-sm-9">
+                    <dl class="row">
+                        <dt class="col-sm-4">Nested definition list</dt>
+                        <dd class="col-sm-8">I heard you like definition lists. Let me put a definition list inside your
+                            definition list.
+                        </dd>
+                    </dl>
+                </dd>{% endcomment %}
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Listado de miembros asociados-->
+    <div class="row py-3">
+        <div class="col-10">
+            <legend class="text-start">Miembros asociados</legend>
+        </div>
+        <div class="col-2 text-end">
+            <button type="button" class="btn btn-primary rounded-pill" data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop">
+                Asignar miembro
+            </button>
+        </div>
+    </div>
+    <div class="card ">
+        <div class="card-body table-responsive">
+            <table class="table table-hover ">
+                <caption>Mostrando {{ object_list.count }} {% if object_list.count == 1 %}
+                    resultado{% else %} resultados {% endif %}</caption>
+                <thead>
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Carnet Id.</th>
+                    <th scope="col">Categoría ocupacional</th>
+                    <th scope="col">Categoría científica</th>
+                    <th scope="col">Cuenta bancaria</th>
+                    <th scope="col">Opciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if object_list %}
+                    {% for object in object_list %}
+                        <tr>
+                            <td>
+                                <a href="#" style="text-decoration: none;color: inherit;"
+                                   class="fw-semibold">{{ object.nombre }} {{ object.apellidos }}</a>
+                            </td>
+                            <td>{{ object.ci }}</td>
+                            <td>{{ object.get_categoria_ocupacional_display }} ({{ object.categoria_ocupacional }})</td>
+                            <td>{{ object.categoria_cientifica }}</td>
+                            <td>{{ object.cuenta_bancaria }}</td>
+                            <td>
+                                <a href="{% url 'member-update' object.pk %}"
+                                   class="btn btn-sm btn-outline-warning rounded-pill">
+                                    <i class="mdi mdi-square-edit-outline"></i>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline-danger rounded-pill">
+                                    <i class="mdi mdi-delete-outline"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Crear y asignar miembro al
+                        proyecto {{ object }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form class="" method="post">
+                    <div class="modal-body">
+                        {% csrf_token %}
+                        <legend>Datos fijos:</legend>
+                        <div class="row">
+                            <div class="col-12 col-sm-6">
+                                <div class="mb-3">
+                                    <label for="id_nombre"
+                                           class="form-label fw-semibold">{{ form.nombre.label }}</label>
+                                    {{ form.nombre|add_class:'form-control' }}
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_ci" class="form-label fw-semibold">{{ form.ci.label }}</label>
+                                    {{ form.ci|add_class:'form-control' }}
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_cuenta_bancaria"
+                                           class="form-label fw-semibold">{{ form.cuenta_bancaria.label }}</label>
+                                    {{ form.cuenta_bancaria|add_class:'form-control' }}
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="mb-3">
+                                    <label for="id_apellidos"
+                                           class="form-label fw-semibold">{{ form.apellidos.label }}</label>
+                                    {{ form.apellidos|add_class:'form-control' }}
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_categoria_ocupacional"
+                                           class="form-label fw-semibold">{{ form.categoria_ocupacional.label }}</label>
+                                    {{ form.categoria_ocupacional|add_class:'form-select' }}
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_categoria_cientifica"
+                                           class="form-label fw-semibold">{{ form.categoria_cientifica.label }}</label>
+                                    {{ form.categoria_cientifica|add_class:'form-control' }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border-top my-3"></div>
+                        <legend>Recursos humanos</legend>
+                        <div class="row">
+                            <div class="col-12 col-sm-6">
+                                <div class="mb-3">
+                                    <label for="id_cargo"
+                                           class="form-label fw-semibold">{{ form2.cargo.label }}</label>
+                                    {{ form2.cargo|add_class:'form-control' }}
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_clasificador_entidad"
+                                           class="form-label fw-semibold">{{ form2.clasificador_entidad.label }}</label>
+                                    {{ form2.clasificador_entidad|add_class:'form-control' }}
+                                    <div class="form-text">{{ form2.clasificador_entidad.help_text }}</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_porciento_de_remuneracion"
+                                           class="form-label fw-semibold">{{ form2.porciento_de_remuneracion.label }}</label>
+                                    {{ form2.porciento_de_remuneracion|add_class:'form-control' }}
+                                    <div class="form-text">{{ form2.porciento_de_remuneracion.help_text }}</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_salario_mensual_basico"
+                                           class="form-label fw-semibold">{{ form2.salario_mensual_basico.label }}</label>
+                                    {{ form2.salario_mensual_basico|add_class:'form-control' }}
+                                    <div class="form-text">{{ form2.salario_mensual_basico.help_text }}</div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="mb-3">
+                                    <label for="id_institucion"
+                                           class="form-label fw-semibold">{{ form2.institucion.label }}</label>
+                                    {{ form2.institucion|add_class:'form-control' }}
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_porciento_de_participacion"
+                                           class="form-label fw-semibold">{{ form2.porciento_de_participacion.label }}</label>
+                                    {{ form2.porciento_de_participacion|add_class:'form-select' }}
+                                    <div class="form-text">{{ form2.porciento_de_participacion.help_text }}</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="id_tiempo"
+                                           class="form-label fw-semibold">{{ form2.tiempo.label }}</label>
+                                    {{ form2.tiempo|add_class:'form-control' }}
+                                    <div class="form-text">{{ form2.tiempo.help_text }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">
+                            <i class="mdi mdi-cancel"></i> Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary rounded-pill">
+                            <i class="mdi mdi-content-save"></i> Guardar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script>
+      {% if form.errors %}
+        let errors = '';
+        {% for field in form %}
+          {% for error in field.errors %}
+            errors += '{{ error }}\n';
+          {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+          errors += '{{ error }}\n';
+        {% endfor %}
+
+        Swal.fire({
+          title: 'Error',
+          text: errors,
+          icon: 'error'
+        });
+      {% endif %}
+    </script>
 {% endblock %}
