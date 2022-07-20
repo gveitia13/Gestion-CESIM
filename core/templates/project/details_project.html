@@ -14,8 +14,9 @@
                 <div class="m-1">
                     <a href="{% url 'project-update' object.pk %}" class="btn btn-sm btn-outline-secondary ">
                         <i class="mdi mdi-square-edit-outline"></i>Editar</a>
-                    <a href="#" class="btn btn-outline-secondary btn-sm">
-                        <i class="mdi mdi-delete-outline"></i>Eliminar</a>
+                    <button rel="del-project" class="btn btn-outline-secondary btn-sm" name="{{ object.id }}">
+                        <i class="mdi mdi-delete-outline"></i>Eliminar
+                    </button>
                 </div>
             </div>
             <div class="col-sm-10">
@@ -58,18 +59,19 @@
     </div>
     <!--Listado de miembros asociados-->
     <div class="row py-3">
-        <div class="col-10">
+        <div class="col-8">
             <legend class="text-start">Miembros asociados</legend>
         </div>
-        <div class="col-2 text-end">
+        <div class="col-4 text-end">
             <button type="button" class="btn btn-primary rounded-pill" data-bs-toggle="modal"
                     data-bs-target="#staticBackdrop" id="create-member">
                 Crear miembro nuevo
             </button>
+            <button class="btn btn-secondary rounded-pill">Asignar miembro existente</button>
         </div>
     </div>
     <div class="card ">
-        <div class="card-body table-responsive">
+        <div class="card-body table-responsive pb-0">
             <table class="table table-hover ">
                 <caption>Mostrando {{ object_list.count }} {% if object_list.count == 1 %}
                     resultado{% else %} resultados {% endif %}</caption>
@@ -118,6 +120,18 @@
 {% endblock %}
 {% block scripts %}
     <script src="{% static 'js/details_project.js' %}"></script>
+    <script>
+      document.querySelectorAll('button[rel=del-project]').forEach(e => e.addEventListener('click', function () {
+        let params = new FormData()
+        params.append('action', 'del-project')
+        params.append('pk', this.name)
+        let nombre = '{{ object.abreviacion }}'
+        submit_with_ajax_alert(location.pathname, 'Eliminar', `Estás seguro de que desea eliminar el proyecto <b>${nombre}</b>?`,
+          params, () => {
+            location.replace('{% url 'project-list' %}')
+          }, 'mdi mdi-alert-decagram text-danger mdi-18px')
+      }))
+    </script>
     <script>
       {% if form.errors %}
         let errors = '';

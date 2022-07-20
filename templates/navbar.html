@@ -18,7 +18,18 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'member-list' %}">Miembros</a>
                 </li>
-
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Resumen de salarios
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+                        {% for project in all_projects %}
+                            <li><a class="dropdown-item"
+                                   href="{% url 'project-salario' project.id %}">{{ project.abreviacion }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
             </ul>
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item dropdown">

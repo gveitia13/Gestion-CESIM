@@ -51,6 +51,8 @@ document.querySelectorAll('button[rel=edit]').forEach(e => {
   })
 })
 
+
+
 modal_form.on('submit', function (event) {
   event.preventDefault()
   let params = new FormData(this)

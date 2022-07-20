@@ -18,6 +18,7 @@ class MemberCreate(generic.CreateView):
     def get_context_data(self, **kwargs):
         context = super(MemberCreate, self).get_context_data()
         context['title'] = 'Registrar nuevo miembro'
+        context['all_projects'] = Proyecto.objects.all()
         return context
 
 
@@ -30,6 +31,7 @@ class MemberUpdate(generic.UpdateView):
     def get_context_data(self, **kwargs):
         context = super(MemberUpdate, self).get_context_data()
         context['title'] = 'Actualizar un miembro'
+        context['all_projects'] = Proyecto.objects.all()
         return context
 
 
@@ -46,6 +48,7 @@ class MemberList(generic.ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(MemberList, self).get_context_data()
         context['title'] = 'Listado de miembros'
+        context['all_projects'] = Proyecto.objects.all()
         return context
 
     @method_decorator(csrf_exempt)

@@ -163,3 +163,7 @@ main {
 .modal-dialog.modal-dialog-top {
     margin-top: 0 !important
 }
+
+.bg-light-success {
+    background-color: #E2EFDA!important;
+}

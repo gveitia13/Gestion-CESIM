@@ -21,7 +21,6 @@ class Proyecto(models.Model):
     area = models.CharField(max_length=100, verbose_name='Área administrativa')
     resumen = models.CharField(max_length=500, verbose_name='Resumen del proyecto')
 
-
     def __str__(self):
         return self.abreviacion
 

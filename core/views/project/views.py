@@ -14,12 +14,14 @@ from core.models import Proyecto, Miembro, RecursosHumanos
 class ProjectCreate(generic.CreateView):
     model = Proyecto
     form_class = ProyectoForm
+    # fields = '__all__'
     template_name = 'project/form_project.html'
     success_url = reverse_lazy('project-list')
 
     def get_context_data(self, **kwargs):
         context = super(ProjectCreate, self).get_context_data()
         context['title'] = 'Insertar proyecto'
+        context['all_projects'] = Proyecto.objects.all()
         return context
 
     def post(self, request, *args, **kwargs):
@@ -37,6 +39,7 @@ class ProjectUpdate(generic.UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         context['title'] = 'Editar proyecto'
+        context['all_projects'] = Proyecto.objects.all()
         return context
 
 
@@ -48,6 +51,7 @@ class ProjectList(generic.ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(ProjectList, self).get_context_data()
         context['title'] = 'Listado de proyectos'
+        context['all_projects'] = Proyecto.objects.all()
         return context
 
     @method_decorator(csrf_exempt)
@@ -60,8 +64,8 @@ class ProjectList(generic.ListView):
         try:
             action = request.POST['action']
             if action == 'delete':
-                member = Proyecto.objects.get(pk=request.POST.get('pk'))
-                member.delete()
+                project = Proyecto.objects.get(pk=request.POST.get('pk'))
+                project.delete()
             else:
                 data['error'] = 'Ha ocurrido un error'
         except Exception as e:
@@ -86,6 +90,7 @@ class ProjectDetails(generic.DetailView):
         context['object_list'] = object_list
         context['form'] = MemberForm()
         context['form2'] = RecursosHumanosForm()
+        context['all_projects'] = Proyecto.objects.all()
         print(project)
         return context
 
@@ -121,6 +126,12 @@ class ProjectDetails(generic.DetailView):
                     rrhh.porciento_de_remuneracion = request.POST.get('porciento_de_remuneracion')
                     rrhh.tiempo = request.POST.get('tiempo')
                     rrhh.salario_mensual_basico = request.POST.get('salario_mensual_basico')
+                    rrhh.salario_mensual = float(request.POST.get('salario_mensual_basico')) * float(
+                        request.POST.get('porciento_de_participacion')) / 100
+                    rrhh.mce = float(request.POST.get('salario_mensual_basico')) * float(
+                        request.POST.get('porciento_de_remuneracion')) / 100
+                    rrhh.anual = float(request.POST.get('salario_mensual_basico')) * float(
+                        request.POST.get('porciento_de_remuneracion')) / 100 * float(request.POST.get('tiempo'))
                     rrhh.save()
                 data['success'] = 'Se creo bien'
             elif action == 'edit':
@@ -144,6 +155,12 @@ class ProjectDetails(generic.DetailView):
                     rrhh.porciento_de_remuneracion = request.POST.get('porciento_de_remuneracion')
                     rrhh.tiempo = request.POST.get('tiempo')
                     rrhh.salario_mensual_basico = request.POST.get('salario_mensual_basico')
+                    rrhh.salario_mensual = float(request.POST.get('salario_mensual_basico')) * float(
+                        request.POST.get('porciento_de_participacion')) / 100
+                    rrhh.mce = float(request.POST.get('salario_mensual_basico')) * float(
+                        request.POST.get('porciento_de_remuneracion')) / 100
+                    rrhh.anual = float(request.POST.get('salario_mensual_basico')) * float(
+                        request.POST.get('porciento_de_remuneracion')) / 100 * float(request.POST.get('tiempo'))
                     rrhh.save()
             elif action == 'search_member':
                 print('entro')
@@ -152,6 +169,9 @@ class ProjectDetails(generic.DetailView):
                 rrhh = RecursosHumanos.objects.get(miembro_id=member.pk, proyecto_id=project.pk)
                 data = member.toJSON()
                 data.update(rrhh.toJSON())
+            elif action == 'del-project':
+                project = Proyecto.objects.get(pk=request.POST.get('pk'))
+                project.delete()
             else:
                 data['error'] = 'Ha ocurrido un error'
         except Exception as e:

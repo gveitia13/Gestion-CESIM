@@ -2,6 +2,7 @@ from django.urls import path
 
 from core.views.member.views import *
 from core.views.project.views import *
+from core.views.reports.views import ProjectSalario
 
 urlpatterns = [
     path('', ProjectList.as_view(), name='project-list'),
@@ -12,4 +13,6 @@ urlpatterns = [
     path('member/list/', MemberList.as_view(), name='member-list'),
     path('member/create/', MemberCreate.as_view(), name='member-create'),
     path('member/update/<int:pk>/', MemberUpdate.as_view(), name='member-update'),
+
+    path('project/<int:pk>/salario/', ProjectSalario.as_view(), name='project-salario'),
 ]

@@ -1,0 +1,82 @@
+{% extends 'body.html' %}
+{% load static widget_tweaks %}
+{% block content %}
+    <div class="row py-3">
+        <div class="col-10">
+            <legend class="text-start">{{ title }}</legend>
+        </div>
+        {#        <div class="col-2 text-end">#}
+        {#            <a href="{% url 'member-create' %}" class="btn btn-primary rounded-pill">#}
+        {#                <i class="mdi mdi-plus"></i>Insertar miembro</a>#}
+        {#        </div>#}
+    </div>
+    <div class="card ">
+        <div class="card-body table-responsive">
+            <table class="table align-middle table-hover table-bordered border-dark table-sm fs-7">
+                <thead>
+                <tr class="border-0 align-middle">
+                    <td colspan="5" class="border-0"></td>
+                    <td colspan="4" class="text-center border-1">Salario por Participación en el Proyecto</td>
+                    <td colspan="4" class="text-center border-1">Remuneración por Participación en el Proyecto</td>
+                    <td class="border-0"></td>
+                </tr>
+                <tr>
+                    <th scope="col">Investigador</th>
+                    <th scope="col">Categoría ocupacional</th>
+                    <th scope="col">Categoría Científica</th>
+                    <th scope="col">Institución a que pertenece</th>
+                    <th scope="col">Clasificación Entidad</th>
+                    <th scope="col">% de Participación</th>
+                    <th scope="col">Salario Mensual</th>
+                    <th scope="col">Salario Anual Ejecutora Principal</th>
+                    <th scope="col">Salario Anual Externos</th>
+                    <th scope="col">% REM</th>
+                    <th scope="col">Mensual (MCE)</th>
+                    <th scope="col">Tiempo</th>
+                    <th scope="col">ANUAL</th>
+                    <th scope="col">Salario básico mensual</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if object_list %}
+                    {% for object in object_list %}
+                        <tr>
+                            <td class="bg-light-success">{{ object.nombre }} {{ object.apellidos }}</td>
+                            <td class="text-center bg-light-success">{{ object.categoria_ocupacional }}</td>
+                            <td class="text-center bg-light-success">{{ object.categoria_cientifica }}</td>
+                            <td class="bg-light-success">{{ object.rrhh.institucion }}</td>
+                            <td class="text-center bg-light-success">{{ object.rrhh.clasificador_entidad }}</td>
+                            <td class="text-center bg-light-success">
+                                {{ object.rrhh.porciento_de_participacion|floatformat:0 }} %
+                            </td>
+                            <td class="text-center text-primary">{{ object.rrhh.salario_mensual }}</td>
+                            <td class="text-center">{{ object.rrhh.salario_anual_ejecutora }}</td>
+                            <td class="text-center">{{ object.rrhh.salario_anual_externo }}</td>
+                            <td class="text-center bg-light-success">
+                                {{ object.rrhh.porciento_de_remuneracion|floatformat:0 }} %
+                            </td>
+                            <td class="text-end">{{ object.rrhh.mce }}</td>
+                            <td class="text-center bg-light-success">{{ object.rrhh.tiempo }}</td>
+                            <td class="text-end">{{ object.rrhh.anual }}</td>
+                            <td class="text-center bg-light-success text-primary">
+                                {{ object.rrhh.salario_mensual_basico }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+                <tfoot>
+                <tr class="border-0">
+                    <td colspan="7" class="border-1"><b>TOTAL</b></td>
+                    <td class="text-center border-1">total #</td>
+                    <td class="text-center border-1" style="border-left: 0;">total #</td>
+                    <td class="text-center border-1" style="border-left: 0;border-right: 0"></td>
+                    <td class="text-center border-1" style="border-left: 0;border-right: 0"></td>
+                    <td class="text-center border-1" style="border-left: 0;border-right: 0"></td>
+                    <td class="text-center border-1">total #</td>
+                    <td class="text-center border-0"></td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+{% endblock %}
