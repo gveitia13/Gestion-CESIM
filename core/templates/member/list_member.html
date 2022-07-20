@@ -12,13 +12,14 @@
     </div>
     <div class="card ">
         <div class="card-body table-responsive">
-            <table class="table table-hover ">
+            <table class="table table-hover table-striped">
                 <caption>Mostrando {{ object_list.count }} {% if object_list.count == 1 %}
                     resultado{% else %} resultados {% endif %}</caption>
                 <thead>
                 <tr>
                     <th scope="col">Nombre</th>
                     <th scope="col">Carnet Id.</th>
+                    <th scope="col">Proyectos</th>
                     <th scope="col">Categoría ocupacional</th>
                     <th scope="col">Categoría científica</th>
                     <th scope="col">Cuenta bancaria</th>
@@ -34,17 +35,23 @@
                                    class="fw-semibold">{{ object.nombre }} {{ object.apellidos }}</a>
                             </td>
                             <td>{{ object.ci }}</td>
+                            <td>{% for project in object.projects %}
+                                <a href="{% url 'project-details' project.id %}"><span
+                                        class="badge bg-light text-dark">{{ project.abreviacion }}</span></a>
+                            {% endfor %}
+                            </td>
                             <td>{{ object.get_categoria_ocupacional_display }} ({{ object.categoria_ocupacional }})</td>
                             <td>{{ object.categoria_cientifica }}</td>
                             <td>{{ object.cuenta_bancaria }}</td>
                             <td>
-                                <a href="{% url 'member-update' object.pk %}"
+                                <a href="{% url 'member-update' object.id %}"
                                    class="btn btn-sm btn-outline-warning rounded-pill">
                                     <i class="mdi mdi-square-edit-outline"></i>
                                 </a>
-                                <a href="#" class="btn btn-sm btn-outline-danger rounded-pill">
-                                    <i class="mdi mdi-delete-outline"></i>
-                                </a>
+                                <button rel="delete" class="btn btn-sm btn-outline-danger rounded-pill"
+                                        id="{{ object.id }}" name="{{ object.nombre }}">
+                                    <i class="mdi mdi-delete-outline "></i>
+                                </button>
                             </td>
                         </tr>
                     {% endfor %}
@@ -59,4 +66,16 @@
             </table>
         </div>
     </div>
+{% endblock %}
+{% block scripts %}
+    <script>
+      document.querySelectorAll('button[rel=delete]').forEach(e => e.addEventListener('click', function () {
+        let params = new FormData()
+        params.append('action', 'delete')
+        params.append('pk', this.id)
+        submit_with_ajax_alert(location.pathname, 'Eliminar', `Estas seguro que desea eliminar a <b>${this.name}</b>`, params, () => {
+          location.reload()
+        }, 'mdi mdi-alert-decagram text-danger mdi-18px')
+      }))
+    </script>
 {% endblock %}

@@ -155,6 +155,11 @@ main {
 .truncate-4 {
     -webkit-line-clamp: 4;
 }
+
 .fs-7 {
-  font-size: .8rem !important;
+    font-size: .8rem !important;
+}
+
+.modal-dialog.modal-dialog-top {
+    margin-top: 0 !important
 }

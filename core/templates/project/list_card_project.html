@@ -36,9 +36,10 @@
                                    class="btn-outline-secondary btn-sm btn">
                                     <i class="mdi mdi-square-edit-outline"></i>
                                 </a>
-                                <a href="#" class="btn btn-outline-danger btn-sm">
+                                <button rel="delete" class="btn btn-outline-danger btn-sm" id="{{ obj.id }}"
+                                        name="{{ obj.abreviacion }}">
                                     <i class="mdi mdi-delete-outline"></i>
-                                </a>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -46,4 +47,17 @@
             {% endif %}
         </div>
     </div>
+{% endblock %}
+{% block scripts %}
+    <script>
+      document.querySelectorAll('button[rel=delete]').forEach(e => e.addEventListener('click', function () {
+        let params = new FormData()
+        params.append('action', 'delete')
+        params.append('pk', this.id)
+        submit_with_ajax_alert(location.pathname, 'Eliminar', `Estas seguro que desea eliminar el proyecto <b>${this.name}</b>?`,
+          params, () => {
+            location.reload()
+          }, 'mdi mdi-alert-decagram text-danger mdi-18px')
+      }))
+    </script>
 {% endblock %}

@@ -1,0 +1,112 @@
+{% load static widget_tweaks %}
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-top">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Crear y asignar miembro al
+                    proyecto {{ object }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form class="" method="post" id="form-modal">
+                <input type="hidden" name="action" value="" id="hidden">
+                <input type="hidden" value="" id="id_to_edit">
+                <div class="modal-body">
+                    {% csrf_token %}
+                    <legend>Datos de la persona:</legend>
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <div class="mb-3">
+                                <label for="id_nombre"
+                                       class="form-label fw-semibold">{{ form.nombre.label }}</label>
+                                {{ form.nombre|add_class:'form-control' }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="id_ci" class="form-label fw-semibold">{{ form.ci.label }}</label>
+                                {{ form.ci|add_class:'form-control' }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="id_cuenta_bancaria"
+                                       class="form-label fw-semibold">{{ form.cuenta_bancaria.label }}</label>
+                                {{ form.cuenta_bancaria|add_class:'form-control' }}
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="mb-3">
+                                <label for="id_apellidos"
+                                       class="form-label fw-semibold">{{ form.apellidos.label }}</label>
+                                {{ form.apellidos|add_class:'form-control' }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="id_categoria_ocupacional"
+                                       class="form-label fw-semibold">{{ form.categoria_ocupacional.label }}</label>
+                                {{ form.categoria_ocupacional|add_class:'form-select' }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="id_categoria_cientifica"
+                                       class="form-label fw-semibold">{{ form.categoria_cientifica.label }}</label>
+                                {{ form.categoria_cientifica|add_class:'form-control' }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border-top my-3"></div>
+                    <legend>Datos del proyecto</legend>
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <div class="mb-3">
+                                <label for="id_cargo"
+                                       class="form-label fw-semibold">{{ form2.cargo.label }}</label>
+                                {{ form2.cargo|add_class:'form-control' }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="id_clasificador_entidad"
+                                       class="form-label fw-semibold">{{ form2.clasificador_entidad.label }}</label>
+                                {{ form2.clasificador_entidad|add_class:'form-control' }}
+                                <div class="form-text">{{ form2.clasificador_entidad.help_text }}</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="id_porciento_de_remuneracion"
+                                       class="form-label fw-semibold">{{ form2.porciento_de_remuneracion.label }}</label>
+                                {{ form2.porciento_de_remuneracion|add_class:'form-control' }}
+                                <div class="form-text">{{ form2.porciento_de_remuneracion.help_text }}</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="id_salario_mensual_basico"
+                                       class="form-label fw-semibold">{{ form2.salario_mensual_basico.label }}</label>
+                                {{ form2.salario_mensual_basico|add_class:'form-control' }}
+                                <div class="form-text">{{ form2.salario_mensual_basico.help_text }}</div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="mb-3">
+                                <label for="id_institucion"
+                                       class="form-label fw-semibold">{{ form2.institucion.label }}</label>
+                                {{ form2.institucion|add_class:'form-control' }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="id_porciento_de_participacion"
+                                       class="form-label fw-semibold">{{ form2.porciento_de_participacion.label }}</label>
+                                {{ form2.porciento_de_participacion|add_class:'form-select' }}
+                                <div class="form-text">{{ form2.porciento_de_participacion.help_text }}</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="id_tiempo"
+                                       class="form-label fw-semibold">{{ form2.tiempo.label }}</label>
+                                {{ form2.tiempo|add_class:'form-control' }}
+                                <div class="form-text">{{ form2.tiempo.help_text }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">
+                        <i class="mdi mdi-cancel"></i> Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary rounded-pill">
+                        <i class="mdi mdi-content-save"></i> Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

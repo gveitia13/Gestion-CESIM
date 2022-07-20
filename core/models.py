@@ -2,6 +2,8 @@ from django.core.validators import MaxValueValidator, MinLengthValidator
 from django.db import models
 
 # Create your models here.
+from django.forms import model_to_dict
+
 from cesim_gestion.settings import MEDIA_URL, STATIC_URL
 
 
@@ -19,6 +21,7 @@ class Proyecto(models.Model):
     area = models.CharField(max_length=100, verbose_name='Área administrativa')
     resumen = models.CharField(max_length=500, verbose_name='Resumen del proyecto')
 
+
     def __str__(self):
         return self.abreviacion
 
@@ -27,6 +30,11 @@ class Proyecto(models.Model):
             return '{}{}'.format(MEDIA_URL, self.logo)
         return '{}{}'.format(STATIC_URL, 'img/uci.jpg')
 
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['logo'] = self.get_logo()
+        return item
+
 
 class Miembro(models.Model):
     proyecto = models.ManyToManyField(Proyecto, verbose_name='Proyecto asociado', through='RecursosHumanos', )
@@ -34,17 +42,23 @@ class Miembro(models.Model):
     apellidos = models.CharField(max_length=100, verbose_name='Apellidos')
     ci = models.CharField(max_length=11, verbose_name='Carnet de identidad', validators=[MinLengthValidator(11)])
     categoria_ocupacional = models.CharField(max_length=100, verbose_name='Categoría ocupacional', choices=(
-        ('C', 'cuadro'),
-        ('TI', 'técnico de investigación'),
-        ('OT', 'otros técnicos'),
-        ('O', 'obreros'),
-        ('S', 'servicios'),
+        ('C', 'Cuadro'),
+        ('TI', 'Técnico de investigación'),
+        ('OT', 'Otros técnicos'),
+        ('O', 'Obreros'),
+        ('S', 'Servicios'),
     ))
     categoria_cientifica = models.CharField(max_length=100, verbose_name='Categoría científica', null=True, blank=True)
     cuenta_bancaria = models.CharField(max_length=16, verbose_name='Cuenta bancaria')
 
     def __str__(self):
         return self.nombre
+
+    def toJSON(self):
+        item = model_to_dict(self, exclude=['proyecto'])
+        item['projects'] = [i.toJSON() for i in Proyecto.objects.filter(miembro=self)]
+        item['get_categoria_ocupacional_display'] = self.get_categoria_ocupacional_display()
+        return item
 
 
 class RecursosHumanos(models.Model):
@@ -85,3 +99,8 @@ class RecursosHumanos(models.Model):
                                 blank=True)  # MCE * tiempo
     salario_mensual_basico = models.DecimalField(verbose_name='Salario básico mensual', decimal_places=2,
                                                  max_digits=10, )
+
+    def toJSON(self):
+        item = model_to_dict(self, exclude=['proyecto', 'miembro'])
+        item['get_cargo_display'] = self.get_cargo_display()
+        return item

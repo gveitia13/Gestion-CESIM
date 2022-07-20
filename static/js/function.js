@@ -45,14 +45,14 @@ let submit_with_ajax_alert = function (url, title, content, parameters, callback
     buttons: {
       info: {
         text: 'Si',
-        btnClass: 'bg-gradient-primary circular',
+        btnClass: 'rounded-pill btn btn-secondary',
         action: function () {
           ajaxFunction(url, parameters, 'POST', callback, true)
         }
       },
       danger: {
         text: 'No',
-        btnClass: 'bg-gradient-danger circular',
+        btnClass: 'rounded-pill btn btn-primary',
         action: () => {
         }
       }
