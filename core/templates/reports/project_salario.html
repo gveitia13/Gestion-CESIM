@@ -12,8 +12,8 @@
     </div>
     <div class="card ">
         <div class="card-body table-responsive">
-            <table class="table align-middle table-hover table-bordered border-dark table-sm fs-7">
-                <thead>
+            <table class="table align-middle table-hover table-bordered border-dark table-sm fs-7" id="table-salario">
+                <thead class="text-center">
                 <tr class="border-0 align-middle">
                     <td colspan="5" class="border-0"></td>
                     <td colspan="4" class="text-center border-1">Salario por Participación en el Proyecto</td>
@@ -67,16 +67,21 @@
                 <tfoot>
                 <tr class="border-0">
                     <td colspan="7" class="border-1"><b>TOTAL</b></td>
-                    <td class="text-center border-1">total #</td>
-                    <td class="text-center border-1" style="border-left: 0;">total #</td>
-                    <td class="text-center border-1" style="border-left: 0;border-right: 0"></td>
-                    <td class="text-center border-1" style="border-left: 0;border-right: 0"></td>
-                    <td class="text-center border-1" style="border-left: 0;border-right: 0"></td>
-                    <td class="text-center border-1">total #</td>
+                    <td class="text-center border-1">{{ total_salario_anual_ejecutora|floatformat:2 }}</td>
+                    <td class="text-center border-1" style="border-left: 0;">{{ total_salario_anual_externo }}</td>
+                    <td class="text-center border-1" style="border-left: 0;border-right: 0;border-bottom: 0;"></td>
+                    <td class="text-center border-1" style="border-left: 0;border-right: 0;border-bottom: 0"></td>
+                    <td class="text-center border-1" style="border-left: 0;border-right: 0;border-bottom: 0"></td>
+                    <td class="border-1 text-end">{{ total_anual }}</td>
                     <td class="text-center border-0"></td>
                 </tr>
                 </tfoot>
+                <caption>Las categorías ocupacionales son: C cuadro, TI técnico investigación, OT otros técnicos, O
+                    Obrero, S servicios
+                </caption>
             </table>
         </div>
     </div>
+{% endblock %}
+{% block scripts %}
 {% endblock %}

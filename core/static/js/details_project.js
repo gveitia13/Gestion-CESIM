@@ -62,6 +62,7 @@ modal_form.on('submit', function (event) {
 
   ajaxFunction(location.pathname, params, 'POST', data => {
     console.log(data)
+
     location.reload()
   })
 })

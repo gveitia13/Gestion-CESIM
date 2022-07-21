@@ -165,5 +165,9 @@ main {
 }
 
 .bg-light-success {
-    background-color: #E2EFDA!important;
+    background-color: #E2EFDA !important;
+}
+
+#table-salario thead tr th {
+    font-weight: 600;
 }

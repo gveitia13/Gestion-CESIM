@@ -21,12 +21,20 @@ function ajaxFunction(url, parameters, type, callback, async = true) {
       if (!data.hasOwnProperty('error')) {
         callback(data)
         return false
+      } else {
+        console.log(data)
+        Swal.fire({
+          title: 'Error',
+          text: data['error'],
+          icon: 'error'
+        });
       }
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
       alert(textStatus + ': ' + errorThrown)
     })
     .always(function (data) {
+      console.log(data)
     })
 }
 

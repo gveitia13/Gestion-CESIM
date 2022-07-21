@@ -18,4 +18,12 @@ class ProjectSalario(generic.DetailView):
             object_list.append(item)
         context['object_list'] = object_list
         context['all_projects'] = Proyecto.objects.all()
+        total, salario_anual_externo, salario_anual_ejecutora = 0.0, 0.0, 0.0
+        for i in object_list:
+            total += float(i['rrhh']['anual'])
+            salario_anual_externo += float(i['rrhh']['salario_anual_externo'])
+            salario_anual_ejecutora += float(i['rrhh']['salario_anual_ejecutora'])
+        context['total_anual'] = total
+        context['total_salario_anual_externo'] = salario_anual_externo
+        context['total_salario_anual_ejecutora'] = salario_anual_ejecutora
         return context

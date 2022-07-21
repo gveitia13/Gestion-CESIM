@@ -9,12 +9,14 @@
     <!--Detalles del proyecto-->
     <div class="card">
         <div class="row g-0">
-            <div class="col-sm-2">
+            <div class="col-sm-2 ">
                 <img src="{{ object.get_logo }}" class="img-fluid rounded-start" alt="...">
                 <div class="m-1">
-                    <a href="{% url 'project-update' object.pk %}" class="btn btn-sm btn-outline-secondary ">
+                    <a href="{% url 'project-update' object.pk %}"
+                       class="btn btn-sm btn-outline-secondary rounded-pill">
                         <i class="mdi mdi-square-edit-outline"></i>Editar</a>
-                    <button rel="del-project" class="btn btn-outline-secondary btn-sm" name="{{ object.id }}">
+                    <button rel="del-project" class="btn btn-outline-secondary btn-sm rounded-pill"
+                            name="{{ object.id }}">
                         <i class="mdi mdi-delete-outline"></i>Eliminar
                     </button>
                 </div>
@@ -65,9 +67,11 @@
         <div class="col-4 text-end">
             <button type="button" class="btn btn-primary rounded-pill" data-bs-toggle="modal"
                     data-bs-target="#staticBackdrop" id="create-member">
-                Crear miembro nuevo
+                <i class="mdi mdi-account-plus"></i> Registrar miembro
             </button>
-            <button class="btn btn-secondary rounded-pill">Asignar miembro existente</button>
+            <button class="btn btn-secondary rounded-pill">
+                <i class="mdi mdi-account-search"></i> Vincular miembro
+            </button>
         </div>
     </div>
     <div class="card ">
@@ -103,9 +107,10 @@
                                         class="btn btn-sm btn-outline-warning rounded-pill">
                                     <i class="mdi mdi-square-edit-outline"></i>
                                 </button>
-                                <a href="#" class="btn btn-sm btn-outline-danger rounded-pill">
+                                <button rel="remove" class="btn btn-sm btn-outline-danger rounded-pill"
+                                        name="{{ object.id }}" value="{{ object.nombre }}">
                                     <i class="mdi mdi-delete-outline"></i>
-                                </a>
+                                </button>
                             </td>
                         </tr>
                     {% endfor %}
@@ -129,6 +134,18 @@
         submit_with_ajax_alert(location.pathname, 'Eliminar', `Estás seguro de que desea eliminar el proyecto <b>${nombre}</b>?`,
           params, () => {
             location.replace('{% url 'project-list' %}')
+          }, 'mdi mdi-alert-decagram text-danger mdi-18px')
+      }))
+
+      document.querySelectorAll('button[rel=remove]').forEach(e => e.addEventListener('click', function () {
+        let params = new FormData()
+        params.append('action', 'remove')
+        params.append('pk', this.name)
+        let nombre = this.value
+        submit_with_ajax_alert(location.pathname, 'Remover', `Estás seguro de que desea quitar a <b>${nombre}</b> del proyecto?`,
+          params, (data) => {
+            console.log(data)
+            location.replace('{% url 'project-details' object.id %}')
           }, 'mdi mdi-alert-decagram text-danger mdi-18px')
       }))
     </script>

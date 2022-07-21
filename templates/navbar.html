@@ -26,7 +26,8 @@
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                         {% for project in all_projects %}
                             <li><a class="dropdown-item"
-                                   href="{% url 'project-salario' project.id %}">{{ project.abreviacion }}</a></li>
+                                   href="{% url 'project-salario' project.id %}"
+                                   target="_blank">{{ project.abreviacion }}</a></li>
                         {% endfor %}
                     </ul>
                 </li>

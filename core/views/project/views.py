@@ -132,6 +132,12 @@ class ProjectDetails(generic.DetailView):
                         request.POST.get('porciento_de_remuneracion')) / 100
                     rrhh.anual = float(request.POST.get('salario_mensual_basico')) * float(
                         request.POST.get('porciento_de_remuneracion')) / 100 * float(request.POST.get('tiempo'))
+                    if request.POST.get('clasificador_entidad') == '0':
+                        rrhh.salario_anual_externo = 0
+                    else:
+                        rrhh.salario_anual_externo = float(request.POST.get('salario_mensual_basico')) * float(
+                            request.POST.get('porciento_de_participacion')) / 100 * 11
+                    rrhh.salario_anual_ejecutora = 0
                     rrhh.save()
                 data['success'] = 'Se creo bien'
             elif action == 'edit':
@@ -161,6 +167,12 @@ class ProjectDetails(generic.DetailView):
                         request.POST.get('porciento_de_remuneracion')) / 100
                     rrhh.anual = float(request.POST.get('salario_mensual_basico')) * float(
                         request.POST.get('porciento_de_remuneracion')) / 100 * float(request.POST.get('tiempo'))
+                    if request.POST.get('clasificador_entidad') == '0':
+                        rrhh.salario_anual_externo = 0
+                    else:
+                        rrhh.salario_anual_externo = float(request.POST.get('salario_mensual_basico')) * float(
+                            request.POST.get('porciento_de_participacion')) / 100 * 11
+                    rrhh.salario_anual_ejecutora = 0
                     rrhh.save()
             elif action == 'search_member':
                 print('entro')
@@ -172,6 +184,11 @@ class ProjectDetails(generic.DetailView):
             elif action == 'del-project':
                 project = Proyecto.objects.get(pk=request.POST.get('pk'))
                 project.delete()
+            elif action == 'remove':
+                member = Miembro.objects.get(pk=request.POST.get('pk'))
+                project = self.get_object()
+                rrhh = RecursosHumanos.objects.get(miembro=member, proyecto=project)
+                rrhh.delete()
             else:
                 data['error'] = 'Ha ocurrido un error'
         except Exception as e:
