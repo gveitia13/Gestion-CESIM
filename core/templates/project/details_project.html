@@ -69,9 +69,17 @@
                     data-bs-target="#staticBackdrop" id="create-member">
                 <i class="mdi mdi-account-plus"></i> Registrar miembro
             </button>
-            <button class="btn btn-secondary rounded-pill">
-                <i class="mdi mdi-account-search"></i> Vincular miembro
-            </button>
+            {#            <button class="btn btn-secondary rounded-pill">#}
+            {#                <i class="mdi mdi-account-search"></i> Vincular miembro#}
+            {#            </button>#}
+            <select class="form-select w-auto bg-light rounded-pill d-inline"
+                    aria-label="Default select example" id="my-select">
+                <option selected class="text-muted">Vincular miembro</option>
+                <option class="text-muted">-------------------</option>
+                {% for member in all_members %}
+                    <option value="{{ member.id }}">{{ member.nombre }}</option>
+                {% endfor %}
+            </select>
         </div>
     </div>
     <div class="card ">
@@ -148,6 +156,7 @@
             location.replace('{% url 'project-details' object.id %}')
           }, 'mdi mdi-alert-decagram text-danger mdi-18px')
       }))
+
     </script>
     <script>
       {% if form.errors %}

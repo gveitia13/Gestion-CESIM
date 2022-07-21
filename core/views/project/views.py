@@ -91,6 +91,7 @@ class ProjectDetails(generic.DetailView):
         context['form'] = MemberForm()
         context['form2'] = RecursosHumanosForm()
         context['all_projects'] = Proyecto.objects.all()
+        context['all_members'] = [i.toJSON() for i in Miembro.objects.exclude(proyecto=project)]
         print(project)
         return context
 

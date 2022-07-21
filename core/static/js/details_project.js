@@ -1,3 +1,8 @@
+// $(document).ready(function () {
+//   $('#my-select').select2({
+//   });
+// });
+
 let modal_form = $('#form-modal'),
   modal = document.querySelector('#staticBackdrop')
 
@@ -50,7 +55,6 @@ document.querySelectorAll('button[rel=edit]').forEach(e => {
     })
   })
 })
-
 
 
 modal_form.on('submit', function (event) {
