@@ -190,6 +190,44 @@ class ProjectDetails(generic.DetailView):
                 project = self.get_object()
                 rrhh = RecursosHumanos.objects.get(miembro=member, proyecto=project)
                 rrhh.delete()
+            elif action == 'search_only_member':
+                member = Miembro.objects.get(pk=request.POST.get('pk'))
+                data = member.toJSON()
+            elif action == 'asociate':
+                with transaction.atomic():
+                    project = self.get_object()
+                    member = Miembro.objects.get(pk=request.POST.get('pk'))
+                    member.nombre = request.POST.get('nombre')
+                    member.apellidos = request.POST.get('apellidos')
+                    member.ci = request.POST.get('ci')
+                    member.categoria_ocupacional = request.POST.get('categoria_ocupacional')
+                    member.categoria_cientifica = request.POST.get('categoria_cientifica')
+                    member.cuenta_bancaria = request.POST.get('cuenta_bancaria')
+                    member.save()
+
+                    rrhh = RecursosHumanos()
+                    rrhh.miembro_id = member.pk
+                    rrhh.proyecto_id = project.pk
+                    rrhh.cargo = request.POST.get('cargo')
+                    rrhh.institucion = request.POST.get('institucion')
+                    rrhh.clasificador_entidad = request.POST.get('clasificador_entidad')
+                    rrhh.porciento_de_participacion = request.POST.get('porciento_de_participacion')
+                    rrhh.porciento_de_remuneracion = request.POST.get('porciento_de_remuneracion')
+                    rrhh.tiempo = request.POST.get('tiempo')
+                    rrhh.salario_mensual_basico = request.POST.get('salario_mensual_basico')
+                    rrhh.salario_mensual = float(request.POST.get('salario_mensual_basico')) * float(
+                        request.POST.get('porciento_de_participacion')) / 100
+                    rrhh.mce = float(request.POST.get('salario_mensual_basico')) * float(
+                        request.POST.get('porciento_de_remuneracion')) / 100
+                    rrhh.anual = float(request.POST.get('salario_mensual_basico')) * float(
+                        request.POST.get('porciento_de_remuneracion')) / 100 * float(request.POST.get('tiempo'))
+                    if request.POST.get('clasificador_entidad') == '0':
+                        rrhh.salario_anual_externo = 0
+                    else:
+                        rrhh.salario_anual_externo = float(request.POST.get('salario_mensual_basico')) * float(
+                            request.POST.get('porciento_de_participacion')) / 100 * 11
+                    rrhh.salario_anual_ejecutora = 0
+                    rrhh.save()
             else:
                 data['error'] = 'Ha ocurrido un error'
         except Exception as e:

@@ -10,6 +10,7 @@ modal.addEventListener('shown.bs.modal', function () {
   document.querySelector('#id_nombre').focus()
 })
 
+//limpiar modal
 modal.addEventListener('hidden.bs.modal', function () {
   document.querySelector('#id_nombre').value = ''
   document.querySelector('#id_ci').value = ''
@@ -56,6 +57,31 @@ document.querySelectorAll('button[rel=edit]').forEach(e => {
   })
 })
 
+document.querySelector('#my-select').addEventListener('change', function () {
+  // console.log(this.options[this.selectedIndex].value)
+  let pk = this.selectedOptions[0].value
+  if (parseInt(pk)) {
+    console.log('done')
+    document.querySelector('#hidden').value = 'asociate'
+    document.querySelector('#id_to_edit').value = pk
+    let params = new FormData()
+    params.append('action', 'search_only_member')
+    params.append('pk', pk)
+    ajaxFunction(location.pathname, params, 'POST', data => {
+      console.log(data)
+      document.querySelector('#id_nombre').value = data.nombre
+      document.querySelector('#id_ci').value = data.ci
+      document.querySelector('#id_cuenta_bancaria').value = data.cuenta_bancaria
+      document.querySelector('#id_apellidos').value = data.apellidos
+      document.querySelector('#id_categoria_ocupacional').value = data.categoria_ocupacional
+      document.querySelector('#id_categoria_cientifica').value = data.categoria_cientifica
+      var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'), {
+        keyboard: false
+      })
+      myModal.show()
+    })
+  }
+})
 
 modal_form.on('submit', function (event) {
   event.preventDefault()
@@ -63,7 +89,8 @@ modal_form.on('submit', function (event) {
 
   if (document.querySelector('#hidden').value === 'edit')
     params.append('pk', document.querySelector('#id_to_edit').value)
-
+  if (document.querySelector('#hidden').value === 'asociate')
+    params.append('pk', document.querySelector('#id_to_edit').value)
   ajaxFunction(location.pathname, params, 'POST', data => {
     console.log(data)
 
